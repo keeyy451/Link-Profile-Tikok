@@ -30,6 +30,15 @@
                     onerror="this.outerHTML='<span class=\'icon\'>💬</span>'">
                 <span class="text">WA KINGKEEYY JUAL & BELI AKUN</span>
             </a>
+            
+            <!-- Manual Copy WA -->
+            <div class="copy-box" style="margin-top: -0.5rem; margin-bottom: 0.5rem; padding: 0.8rem 1.2rem; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.2); border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="text-align: left;">
+                    <span style="font-size: 0.7rem; color: #a1a1aa; display: block; margin-bottom: 0.2rem;">Nomor Manual (Salin):</span>
+                    <span style="font-size: 0.95rem; font-weight: 600; color: #fff; letter-spacing: 0.5px;">0895-3835-83900</span>
+                </div>
+                <button onclick="var ta=document.createElement('textarea');ta.value='0895383583900';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);this.style.background='#25D366';this.style.color='#000';this.innerText='Tersalin ✅';setTimeout(()=>{this.style.background='rgba(255,255,255,0.1)';this.style.color='#fff';this.innerText='Salin'},2000)" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 600; font-size: 0.75rem; cursor: pointer; transition: all 0.3s ease;">Salin</button>
+            </div>
 
             <!-- 1 Grup WhatsApp -->
             <a href="redirect-grup.html"
