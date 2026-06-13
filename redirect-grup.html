@@ -40,20 +40,33 @@
             font-size: 1.05rem;
             width: 100%;
             transition: transform 0.2s;
+            margin-bottom: 1rem;
         }
         .btn-wa:active {
             transform: scale(0.95);
+        }
+        .btn-web {
+            display: inline-block;
+            color: #a1a1aa;
+            text-decoration: underline;
+            font-size: 0.85rem;
+            padding: 0.5rem;
         }
     </style>
 </head>
 <body>
     <div class="redirect-container fade-in-up">
         <h2>Lanjutkan ke Grup</h2>
-        <p>Browser TikTok memblokir perpindahan otomatis. Silakan klik tombol di bawah untuk bergabung ke Grup WhatsApp.</p>
+        <p>Gunakan tombol pertama untuk langsung membuka aplikasi WA dan menghindari error "Layar Putih".</p>
         
-        <!-- PENTING: MURNI ELEMEN <a> TANPA JAVASCRIPT REDIRECT -->
-        <a href="https://chat.whatsapp.com/KbujRvxIuTB04QA0iVbaE9" target="_blank" rel="noopener noreferrer" class="btn-wa">
-            👥 Buka Grup WhatsApp
+        <!-- PENTING: MENGGUNAKAN WHATSAPP DEEP LINK LANGSUNG -->
+        <a href="whatsapp://chat?code=KbujRvxIuTB04QA0iVbaE9" class="btn-wa">
+            👥 Buka Aplikasi WA
+        </a>
+
+        <!-- FALLBACK -->
+        <a href="https://chat.whatsapp.com/KbujRvxIuTB04QA0iVbaE9" target="_blank" rel="noopener noreferrer" class="btn-web">
+            Buka via Browser (Alternatif)
         </a>
     </div>
 </body>

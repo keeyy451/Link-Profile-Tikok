@@ -27,6 +27,16 @@
             margin-bottom: 2rem;
             line-height: 1.5;
         }
+        .tip-box {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            color: #fbbf24;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
         .btn-wa {
             display: inline-flex;
             align-items: center;
@@ -49,9 +59,12 @@
 <body>
     <div class="redirect-container fade-in-up">
         <h2>Lanjutkan ke Saluran</h2>
-        <p>Browser TikTok memblokir perpindahan otomatis. Silakan klik tombol di bawah untuk membuka Saluran WhatsApp.</p>
+        <p>Silakan klik tombol di bawah untuk membuka Saluran WhatsApp.</p>
+
+        <div class="tip-box">
+            ⚠️ <strong>Info Penting:</strong> Jika layar putih saat bergabung, ketuk ikon <strong>Tiga Titik (⋯)</strong> di pojok kanan atas browser TikTok ini, lalu pilih <strong>"Buka di Browser Safari/Chrome"</strong>.
+        </div>
         
-        <!-- PENTING: MURNI ELEMEN <a> TANPA JAVASCRIPT REDIRECT -->
         <a href="https://whatsapp.com/channel/0029Vb8mAAv5vKADmg7Xvy3V" target="_blank" rel="noopener noreferrer" class="btn-wa">
             📢 Buka Saluran
         </a>
