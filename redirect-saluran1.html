@@ -1,58 +1,60 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Membuka Saluran WhatsApp...</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#09090b;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:2rem 1.5rem;-webkit-font-smoothing:antialiased}
-.box{text-align:center;max-width:360px;width:100%;animation:fadeIn .4s ease}
-.spinner{width:44px;height:44px;border:3px solid rgba(255,255,255,.08);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1.5rem}
-.box h2{font-size:1.15rem;font-weight:600;margin-bottom:.6rem}
-.box p{font-size:.88rem;color:#a1a1aa;line-height:1.6;margin-bottom:1.2rem}
-.btn{display:block;width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#fff;padding:.95rem 1.5rem;border-radius:16px;text-decoration:none;font-size:1rem;font-weight:600;transition:all .3s ease;margin-bottom:.7rem;text-align:center}
-.btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
-.btn:active{transform:translateY(0)}
-.btn-sm{display:inline-block;color:#a1a1aa;font-size:.82rem;text-decoration:underline;margin-top:.3rem}
-.btn-sm:hover{color:#fff}
-.tip{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:12px;padding:.7rem 1rem;margin-bottom:1.2rem;font-size:.78rem;color:#fbbf24;line-height:1.5}
-.hidden{display:none}
-.status{font-size:.75rem;color:#52525b;margin-top:1.2rem}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Melanjutkan ke Saluran...</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .redirect-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem 1.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 340px;
+        }
+        .redirect-container h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .redirect-container p {
+            font-size: 0.9rem;
+            color: #a1a1aa;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+        .btn-wa {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25D366;
+            color: #000000;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        .btn-wa:active {
+            transform: scale(0.95);
+        }
+    </style>
 </head>
 <body>
-<div class="box">
-    <div class="spinner" id="spinner"></div>
-    <h2 id="title">Membuka Saluran WhatsApp...</h2>
-    <p id="desc">Tunggu sebentar, kamu akan diarahkan.</p>
-    <div class="tip hidden" id="tip">
-        💡 <strong>Tip:</strong> Jika tidak terbuka, ketuk tombol <strong>⋮</strong> atau <strong>⋯</strong> di pojok kanan atas, lalu pilih <strong>"Buka di Browser"</strong>.
+    <div class="redirect-container fade-in-up">
+        <h2>Lanjutkan ke Saluran</h2>
+        <p>Browser TikTok memblokir perpindahan otomatis. Silakan klik tombol di bawah untuk membuka Saluran WhatsApp.</p>
+        
+        <!-- PENTING: MURNI ELEMEN <a> TANPA JAVASCRIPT REDIRECT -->
+        <a href="https://whatsapp.com/channel/0029Vas91PpJf05hHOVVqJ2D" target="_blank" rel="noopener noreferrer" class="btn-wa">
+            📢 Buka Saluran
+        </a>
     </div>
-    <div class="hidden" id="fallback">
-        <a class="btn" id="btn-open" href="#">✅ Buka Saluran</a>
-        <a class="btn-sm" id="btn-copy" href="#">📋 Salin Link</a>
-    </div>
-    <p class="status" id="status"></p>
-</div>
-<script>
-var TARGET_URL = 'https://whatsapp.com/channel/0029Vas91PpJf05hHOVVqJ2D';
-var WEB_FALLBACK = TARGET_URL;
-
-(function(){
-    var ua = navigator.userAgent || '';
-    var isInApp = /musical_ly|tiktok|instagram|fbav|fban|line\//i.test(ua);
-    var isAndroid = /android/i.test(ua);
-    var isIOS = /iphone|ipad|ipod/i.test(ua);
-    var $title=document.getElementById('title'),$desc=document.getElementById('desc'),$spinner=document.getElementById('spinner'),$tip=document.getElementById('tip'),$fallback=document.getElementById('fallback'),$btnOpen=document.getElementById('btn-open'),$btnCopy=document.getElementById('btn-copy'),$status=document.getElementById('status');
-    $btnOpen.href=TARGET_URL;$btnOpen.setAttribute('target','_blank');$btnOpen.setAttribute('rel','noopener noreferrer');
-    function showManualButtons(){$spinner.style.display='none';$fallback.classList.remove('hidden');$title.textContent='Tap Tombol di Bawah';$desc.textContent='Jika tidak terbuka otomatis, ketuk tombol di bawah ini.';}
-    function tryRedirect(url){try{window.location.replace(url)}catch(e){}setTimeout(function(){try{window.location.href=url}catch(e){}},200);setTimeout(function(){try{window.open(url,'_blank')}catch(e){}},600);}
-    $btnCopy.addEventListener('click',function(e){e.preventDefault();if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(TARGET_URL).then(function(){$status.textContent='✅ Link berhasil disalin!'})}else{var ta=document.createElement('textarea');ta.value=TARGET_URL;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');$status.textContent='✅ Link berhasil disalin!'}catch(e){$status.textContent=TARGET_URL}document.body.removeChild(ta)}});
-    if(isInApp){$tip.classList.remove('hidden');showManualButtons();if(isAndroid){var intentUrl='intent://'+TARGET_URL.replace(/^https?:\/\//,'')+('#Intent;scheme=https;action=android.intent.action.VIEW;S.browser_fallback_url='+encodeURIComponent(TARGET_URL)+';end');$btnOpen.href=intentUrl;setTimeout(function(){tryRedirect(TARGET_URL)},300)}else if(isIOS){$btnOpen.href=TARGET_URL;setTimeout(function(){tryRedirect(TARGET_URL)},300)}}else{$status.textContent='Mengarahkan...';setTimeout(function(){tryRedirect(TARGET_URL)},400);setTimeout(function(){showManualButtons()},3000)}
-})();
-</script>
 </body>
 </html>
