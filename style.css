@@ -230,3 +230,15 @@ body {
         transform: translateY(0); 
     }
 }
+
+/* --- Banner In-App Browser (TikTok) --- */
+.inapp-banner {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: 12px;
+    padding: 0.65rem 1rem;
+    margin-bottom: -0.5rem;
+}

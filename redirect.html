@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Membuka WhatsApp...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #09090b;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1.5rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .redirect-box {
+            text-align: center;
+            max-width: 380px;
+            width: 100%;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Spinner */
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        .redirect-box h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .redirect-box p {
+            font-size: 0.9rem;
+            color: #a1a1aa;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Tombol manual fallback */
+        .btn-open {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 0.9rem 2rem;
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 0.75rem;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .btn-open:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-open:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            color: #a1a1aa;
+            font-size: 0.85rem;
+            text-decoration: underline;
+            margin-top: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            color: #fff;
+        }
+
+        /* Status pesan */
+        .status-msg {
+            font-size: 0.8rem;
+            color: #52525b;
+            margin-top: 1.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="redirect-box">
+        <div class="spinner" id="spinner"></div>
+        <h2 id="title">Membuka WhatsApp...</h2>
+        <p id="desc">Tunggu sebentar, kamu akan diarahkan ke WhatsApp.</p>
+
+        <!-- Tombol manual (muncul setelah beberapa detik) -->
+        <div id="fallback" style="display: none;">
+            <a href="#" id="btn-manual" class="btn-open">Buka WhatsApp</a>
+            <br>
+            <a href="#" id="btn-web" class="btn-secondary">Buka WhatsApp Web</a>
+        </div>
+
+        <p class="status-msg" id="status"></p>
+    </div>
+
+    <script>
+        (function () {
+            // Ambil parameter URL
+            var params = new URLSearchParams(window.location.search);
+            var targetUrl = params.get('url');
+            var type = params.get('type') || 'wa';
+
+            // Jika tidak ada URL, kembali ke halaman utama
+            if (!targetUrl) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Decode URL jika diperlukan
+            targetUrl = decodeURIComponent(targetUrl);
+
+            // Deteksi apakah di dalam in-app browser (TikTok, Instagram, dll)
+            var ua = navigator.userAgent || '';
+            var isInApp = /musical_ly|tiktok|instagram|fbav|fban|line\//i.test(ua);
+
+            // Buat fallback URL (WhatsApp Web)
+            var webFallback = targetUrl;
+            if (type === 'wa') {
+                // Untuk chat WA, fallback ke web.whatsapp.com
+                var phoneMatch = targetUrl.match(/phone=(\d+)/);
+                if (phoneMatch) {
+                    webFallback = 'https://web.whatsapp.com/send?phone=' + phoneMatch[1];
+                }
+            }
+
+            // Setup tombol manual
+            var btnManual = document.getElementById('btn-manual');
+            var btnWeb = document.getElementById('btn-web');
+            btnManual.href = targetUrl;
+            btnWeb.href = webFallback;
+
+            // === STRATEGI REDIRECT ===
+
+            if (isInApp) {
+                // --- METODE UNTUK IN-APP BROWSER (TikTok, IG, dll) ---
+                // In-app browser biasanya memblokir direct navigation.
+                // Strategi: gunakan intent:// untuk Android, atau langsung tunjukkan tombol manual.
+
+                document.getElementById('title').textContent = 'Buka di Browser Luar';
+                document.getElementById('desc').textContent =
+                    'Browser TikTok tidak bisa membuka WhatsApp langsung. Tap tombol di bawah, lalu pilih "Buka di Browser" atau salin link.';
+                document.getElementById('spinner').style.display = 'none';
+                document.getElementById('fallback').style.display = 'block';
+
+                // Coba intent:// untuk Android
+                var isAndroid = /android/i.test(ua);
+                if (isAndroid) {
+                    // Buat intent URL yang membuka di browser Chrome/default
+                    var intentUrl = 'intent://' + targetUrl.replace(/^https?:\/\//, '') +
+                        '#Intent;scheme=https;package=com.android.chrome;end';
+                    btnManual.href = intentUrl;
+
+                    // Fallback: langsung coba buka link asli juga
+                    setTimeout(function () {
+                        window.location.href = targetUrl;
+                    }, 300);
+                }
+            } else {
+                // --- METODE UNTUK BROWSER BIASA (Chrome, Safari, dll) ---
+                // Langsung redirect
+                document.getElementById('status').textContent = 'Mengarahkan...';
+
+                // Redirect utama
+                setTimeout(function () {
+                    window.location.href = targetUrl;
+                }, 500);
+
+                // Tampilkan tombol manual setelah 3 detik (fallback jika redirect gagal)
+                setTimeout(function () {
+                    document.getElementById('desc').textContent =
+                        'Jika WhatsApp tidak terbuka otomatis, tap tombol di bawah.';
+                    document.getElementById('fallback').style.display = 'block';
+                    document.getElementById('spinner').style.display = 'none';
+                    document.getElementById('status').textContent = '';
+                }, 3000);
+            }
+        })();
+    </script>
+</body>
+
+</html>
